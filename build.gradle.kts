@@ -3,7 +3,7 @@ plugins {
     alias(libs.plugins.lombok)
 }
 
-group = "com.mucheng.mucute.relay"
+group = "com.xsorry20.client"
 version = "1.0-SNAPSHOT"
 
 repositories {
