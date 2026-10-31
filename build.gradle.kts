@@ -38,7 +38,7 @@ kotlin {
 }
 
 tasks.register<Jar>("uberJar") {
-    archiveFileName.set("MuCuteRelay.jar")
+    archiveFileName.set("XSorry20Client.jar")          // <-- CAMBIO 1
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 
     from(sourceSets.main.get().output)
@@ -54,7 +54,7 @@ tasks.register<Jar>("uberJar") {
 
     manifest {
         attributes(mapOf(
-            "Main-Class" to "com.mucheng.mucute.relay.MuCuteRelayKt"
+            "Main-Class" to "com.xsorry20.client.XSorry20ClientKt"  // <-- CAMBIO 2
         ))
     }
 
