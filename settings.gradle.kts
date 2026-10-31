@@ -2,7 +2,7 @@ plugins {
     id("org.gradle.toolchains.foojay-resolver-convention") version "0.9.0"
 }
 
-rootProject.name = "MuCuteRelay"
+rootProject.name = "XSorry20Client"
 
 include(
     ":Protocol:bedrock-codec",
