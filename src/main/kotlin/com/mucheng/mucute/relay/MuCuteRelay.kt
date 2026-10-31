@@ -1,8 +1,8 @@
-package com.mucheng.mucute.relay
+package com.xsorry20.client
 
-import com.mucheng.mucute.relay.MuCuteRelaySession.ClientSession
-import com.mucheng.mucute.relay.address.MuCuteAddress
-import com.mucheng.mucute.relay.address.inetSocketAddress
+import com.xsorry20.client.XSorry20Session.ClientSession
+import com.xsorry20.client.address.XSorry20Address
+import com.xsorry20.client.address.inetSocketAddress
 import io.netty.bootstrap.Bootstrap
 import io.netty.bootstrap.ServerBootstrap
 import io.netty.channel.Channel
@@ -20,8 +20,8 @@ import org.cloudburstmc.protocol.bedrock.codec.v800.Bedrock_v800
 import org.cloudburstmc.protocol.bedrock.netty.initializer.BedrockChannelInitializer
 import kotlin.random.Random
 
-class MuCuteRelay(
-    val localAddress: MuCuteAddress = MuCuteAddress("0.0.0.0", 19132),
+class XSorry20Client(
+    val localAddress: XSorry20Address = XSorry20Address("0.0.0.0", 19132),
     val advertisement: BedrockPong = DefaultAdvertisement
 ) {
 
@@ -35,7 +35,7 @@ class MuCuteRelay(
             .gameType("Survival")
             .version(DefaultCodec.minecraftVersion)
             .protocolVersion(DefaultCodec.protocolVersion)
-            .motd("MuCuteRelay")
+            .motd("XSorry20 Client")
             .playerCount(0)
             .maximumPlayerCount(20)
             .subMotd("discord.gg/XFVe5jJU5H")
@@ -49,15 +49,15 @@ class MuCuteRelay(
 
     private var channelFuture: ChannelFuture? = null
 
-    internal var muCuteRelaySession: MuCuteRelaySession? = null
+    internal var xsorry20Session: XSorry20Session? = null
 
-    var remoteAddress: MuCuteAddress? = null
+    var remoteAddress: XSorry20Address? = null
         internal set
 
     fun capture(
-        remoteAddress: MuCuteAddress = MuCuteAddress("geo.hivebedrock.network", 19132),
-        onSessionCreated: MuCuteRelaySession.() -> Unit
-    ): MuCuteRelay {
+        remoteAddress: XSorry20Address = XSorry20Address("geo.hivebedrock.network", 19132),
+        onSessionCreated: XSorry20Session.() -> Unit
+    ): XSorry20Client {
         if (isRunning) {
             return this
         }
@@ -73,18 +73,18 @@ class MuCuteRelay(
             .channelFactory(RakChannelFactory.server(NioDatagramChannel::class.java))
             .option(RakChannelOption.RAK_ADVERTISEMENT, advertisement.toByteBuf())
             .option(RakChannelOption.RAK_GUID, Random.nextLong())
-            .childHandler(object : BedrockChannelInitializer<MuCuteRelaySession.ServerSession>() {
+            .childHandler(object : BedrockChannelInitializer<XSorry20Session.ServerSession>() {
 
-                override fun createSession0(peer: BedrockPeer, subClientId: Int): MuCuteRelaySession.ServerSession {
-                    return MuCuteRelaySession(peer, subClientId, this@MuCuteRelay)
+                override fun createSession0(peer: BedrockPeer, subClientId: Int): XSorry20Session.ServerSession {
+                    return XSorry20Session(peer, subClientId, this@XSorry20Client)
                         .also {
-                            muCuteRelaySession = it
+                            xsorry20Session = it
                             it.onSessionCreated()
                         }
                         .server
                 }
 
-                override fun initSession(session: MuCuteRelaySession.ServerSession) {}
+                override fun initSession(session: XSorry20Session.ServerSession) {}
 
                 override fun preInitChannel(channel: Channel) {
                     channel.attr(PacketDirection.ATTRIBUTE).set(PacketDirection.CLIENT_BOUND)
@@ -116,11 +116,11 @@ class MuCuteRelay(
             .handler(object : BedrockChannelInitializer<ClientSession>() {
 
                 override fun createSession0(peer: BedrockPeer, subClientId: Int): ClientSession {
-                    return muCuteRelaySession!!.ClientSession(peer, subClientId)
+                    return xsorry20Session!!.ClientSession(peer, subClientId)
                 }
 
                 override fun initSession(clientSession: ClientSession) {
-                    muCuteRelaySession!!.client = clientSession
+                    xsorry20Session!!.client = clientSession
                     onSessionCreated(clientSession)
                 }
 
@@ -145,7 +145,7 @@ class MuCuteRelay(
             it.parent().close().awaitUninterruptibly()
         }
         channelFuture = null
-        muCuteRelaySession = null
+        xsorry20Session = null
     }
 
 }
