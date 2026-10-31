@@ -1,8 +1,8 @@
-package com.mucheng.mucute.relay.listener
+package com.xsorry20.client.listener
 
 import org.cloudburstmc.protocol.bedrock.packet.BedrockPacket
 
-interface MuCuteRelayPacketListener {
+interface XSorry20PacketListener {
 
     fun beforeClientBound(packet: BedrockPacket): Boolean {
         return false
