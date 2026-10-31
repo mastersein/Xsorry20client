@@ -1,6 +1,6 @@
-package com.mucheng.mucute.relay
+package com.xsorry20.client
 
-import com.mucheng.mucute.relay.listener.MuCuteRelayPacketListener
+import com.xsorry20.client.listener.XSorry20PacketListener
 import io.netty.util.internal.PlatformDependent
 import org.cloudburstmc.protocol.bedrock.BedrockClientSession
 import org.cloudburstmc.protocol.bedrock.BedrockPeer
@@ -12,10 +12,10 @@ import org.cloudburstmc.protocol.bedrock.packet.UnknownPacket
 import java.util.*
 
 
-class MuCuteRelaySession internal constructor(
+class XSorry20Session internal constructor(
     peer: BedrockPeer,
     subClientId: Int,
-    val muCuteRelay: MuCuteRelay
+    val xsorry20Client: XSorry20Client
 ) {
 
     val server = ServerSession(peer, subClientId)
@@ -41,7 +41,7 @@ class MuCuteRelaySession internal constructor(
             field = value
         }
 
-    val listeners: MutableList<MuCuteRelayPacketListener> = ArrayList()
+    val listeners: MutableList<XSorry20PacketListener> = ArrayList()
 
     private val packetQueue: Queue<Pair<BedrockPacket, Boolean>> = PlatformDependent.newMpscQueue()
 
